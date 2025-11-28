@@ -12,9 +12,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - 3000=3000
-      - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - .env
     command: >
       sh -c "
       while ! nc -z database-retro-cine-burgers 5432; do
