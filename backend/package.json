@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "services:up",
+    "dev": "node --import=tsx --watch --env-file=.env ./src/index.ts",
     "services:up": "docker compose -f compose.yaml up",
     "services:down": "docker compose -f compose.yaml down",
     "build": "tsc",
@@ -23,6 +23,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.0.1",
     "@prisma/client": "^7.0.1",
     "express": "^5.1.0"
   }
