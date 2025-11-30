@@ -1,13 +1,12 @@
-import express from 'express'
+import cors from 'cors'
+import express, { urlencoded } from 'express'
 import router from './routes/main'
-
-// import cors from 'cors'
 
 const server = express()
 
+server.use(cors())
+server.use(urlencoded({ extended: true }))
 server.use(express.json())
-server.use('/api', router)
-// server.use(cors())
 server.use('/api', router)
 
 const port = process.env.SERVER_PORT || 3000

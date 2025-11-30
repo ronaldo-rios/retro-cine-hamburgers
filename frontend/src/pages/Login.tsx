@@ -2,14 +2,21 @@ import { useState } from "react"
 import { Link } from "react-router"
 import Button from "../components/Button"
 import Input from "../components/Input"
+import { BASE_URL } from '../routes/api'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        
+        const response = await fetch(`${BASE_URL}/auth/login`, { 
+            headers: { "Content-Type":"application/json" },
+            method: 'POST',
+            body: JSON.stringify({ email, password })
+        })
+        const data = await response.json()
+        console.log(data)
     }
 
     return (
@@ -33,7 +40,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)} 
                 />
                 <Link to="/" className="w-full">
-                    <Button label="Login" variant="default" />
+                    <Button label="Login" variant="default" type="submit" />
                 </Link>
                 <Link to="/register" className="w-full">
                     <Button label="Ainda não possuo uma conta" variant="outline" />
