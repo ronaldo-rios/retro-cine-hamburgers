@@ -15,8 +15,22 @@ const Login = () => {
             method: 'POST',
             body: JSON.stringify({ email, password })
         })
-        const data = await response.json()
-        console.log(data)
+
+        if (response.status === 400)
+            console.log("Obrigatorio")
+
+        if (response.status === 404)
+            console.log("Não encontrado")
+
+        try {
+            if (response.status === 200) {
+                const data = await response.json()
+                console.log(data)
+            }
+        } catch(error) {
+           throw Error()
+        }
+        
     }
 
     return (
@@ -39,9 +53,9 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} 
                 />
-                <Link to="/" className="w-full">
+                {/* <Link to="/" className="w-full"> */}
                     <Button label="Login" variant="default" type="submit" />
-                </Link>
+                {/* </Link> */}
                 <Link to="/register" className="w-full">
                     <Button label="Ainda não possuo uma conta" variant="outline" />
                 </Link>
