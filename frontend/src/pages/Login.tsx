@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import Button from "../components/Button"
 import Input from "../components/Input"
 import { BASE_URL } from '../routes/api'
@@ -7,6 +7,7 @@ import { BASE_URL } from '../routes/api'
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -25,7 +26,7 @@ const Login = () => {
         try {
             if (response.status === 200) {
                 const data = await response.json()
-                console.log(data)
+                navigate('/')
             }
         } catch(error) {
            throw Error()
@@ -53,12 +54,12 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} 
                 />
-                {/* <Link to="/" className="w-full"> */}
+                <div className="mt-3 w-full">
                     <Button label="Login" variant="default" type="submit" />
-                {/* </Link> */}
-                <Link to="/register" className="w-full">
-                    <Button label="Ainda não possuo uma conta" variant="outline" />
-                </Link>
+                    <Link to="/register" className="w-full">
+                        <Button label="Ainda não possuo uma conta" variant="outline" />
+                    </Link>
+                </div>
             </div>        
         </form>
     )
