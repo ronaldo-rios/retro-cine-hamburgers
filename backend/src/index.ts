@@ -4,7 +4,12 @@ import router from './routes/main'
 
 const server = express()
 
-server.use(cors())
+server.use(
+    cors({ 
+        origin: process.env.VITE_API_URL, 
+        credentials: true 
+    }
+))
 server.use(urlencoded({ extended: true }))
 server.use(express.json())
 server.use('/api', router)

@@ -2,11 +2,13 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import Button from "../components/Button"
 import Input from "../components/Input"
+import { useAuth } from "../hooks/useAuth"
 import { BASE_URL } from '../routes/api'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const { setAuth } = useAuth()
     const navigate = useNavigate()
 
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -14,7 +16,8 @@ const Login = () => {
         const response = await fetch(`${BASE_URL}/auth/login`, { 
             headers: { "Content-Type":"application/json" },
             method: 'POST',
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+            credentials: 'include'
         })
 
         if (response.status === 400)
@@ -27,6 +30,7 @@ const Login = () => {
             if (response.status === 200) {
                 const data = await response.json()
                 navigate('/')
+                setAuth(data)
             }
         } catch(error) {
            throw Error()
