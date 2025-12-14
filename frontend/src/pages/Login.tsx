@@ -28,9 +28,9 @@ const Login = () => {
 
         try {
             if (response.status === 200) {
-                const data = await response.json()
+                const result = await response.json()
                 navigate('/')
-                setAuth(data)
+                setAuth(result.data)
             }
         } catch(error) {
            throw Error()
