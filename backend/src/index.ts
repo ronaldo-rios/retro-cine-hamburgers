@@ -1,9 +1,15 @@
 import cors from 'cors'
 import express, { urlencoded } from 'express'
+import helmet from 'helmet'
 import router from './routes/main'
 
 const server = express()
 
+server.use(
+  helmet({
+    contentSecurityPolicy: false
+  })
+)
 server.use(
     cors({ 
         origin: process.env.VITE_API_URL, 

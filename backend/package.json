@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --import=tsx --watch --env-file=.env ./src/index.ts",
-    "services:up": "docker compose -f compose.yaml up",
+    "services:up": "docker compose -f compose.yaml up --no-cache",
     "services:down": "docker compose -f compose.yaml down",
     "build": "tsc",
     "start": "node dist/index.js",
@@ -32,6 +32,7 @@
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2"
   }
 }
