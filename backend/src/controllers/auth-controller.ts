@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { RequestHandler } from 'express'
-import { generateJWT } from '../config/jwt'
-import { createUser, findByEmail } from '../services/user'
+import { generateJWT, verifyJWT } from '../config/jwt'
+import { createUser, findByEmail, findById } from '../services/user'
 
 export const login: RequestHandler = async (request, response) => {
     const { email, password } = request.body
@@ -20,15 +20,17 @@ export const login: RequestHandler = async (request, response) => {
     const token = generateJWT(user.id)
   
     response.cookie('user', token, { 
-        maxAge: 48 * 60 * 60 * 1000,
-        httpOnly: true
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/'
     })
 
     return response.status(200).json({ data: {
             id: user.id,
             username: user.username,
-            email: user.email,
-            token: token
+            email: user.email
         }
     })
 }
@@ -53,5 +55,27 @@ export const register: RequestHandler = async (request, response) => {
         username: newUser.username,
         email: newUser.email
     }})
+}
+
+export const auth: RequestHandler = async (request, response) => {
+  const token = request.cookies.user
+  
+  if (!token) 
+    return response.status(401).json({ message: 'Usuário não autorizado!' })
+
+  try {
+    const decoded = verifyJWT(token)
+    const user = await findById(decoded.id)
+    
+    return response.status(200).json({
+      user: {
+        id: user?.id,
+        email: user?.email,
+        username: user?.username
+      },
+    })
+  } catch {
+    return response.status(401).json({ message: 'Token expirado ou inválido!' })
+  }
 }
 

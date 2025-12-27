@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express, { urlencoded } from 'express'
 import helmet from 'helmet'
@@ -18,6 +19,7 @@ server.use(
 ))
 server.use(urlencoded({ extended: true }))
 server.use(express.json())
+server.use(cookieParser())
 server.use('/api', router)
 
 const port = process.env.SERVER_PORT || 3000
