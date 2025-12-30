@@ -22,8 +22,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         fetchUser()
     }, [])
 
+    const clearAuth = async () => {
+        try {
+            await fetch(`${BASE_URL}/auth/logout`, {
+                method: "POST",
+                credentials: "include",
+            })
+        } catch(error) {
+            console.log(error)
+            return
+        }finally {
+            setAuth(null)
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, clearAuth }}>
             {children}
         </AuthContext.Provider>
     )

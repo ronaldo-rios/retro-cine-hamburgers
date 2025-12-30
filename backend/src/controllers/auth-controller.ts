@@ -35,6 +35,20 @@ export const login: RequestHandler = async (request, response) => {
     })
 }
 
+export const logout: RequestHandler = async (request, response) => {
+  const { user } = request.cookies
+
+  if (user) {
+    response.clearCookie('user', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/', 
+    })
+    response.json({ message: 'Usuário deslogado.' })
+  }
+}
+
 export const register: RequestHandler = async (request, response) => {
     const { email, password, username } = request.body
     if (!email || !password || !username) {

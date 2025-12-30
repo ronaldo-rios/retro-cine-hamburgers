@@ -1,12 +1,13 @@
 import { createContext, type Dispatch } from "react"
 import type { User } from "../@types/user"
 
-type AuthContextType = {
+interface AuthContextInterface {
     auth: User | null
-    setAuth: Dispatch<React.SetStateAction<User | null>>
+    setAuth: Dispatch<React.SetStateAction<User | null>>,
+    clearAuth: () => Promise<void>
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null)
+export const AuthContext = createContext<AuthContextInterface | null>(null)
 
 
 

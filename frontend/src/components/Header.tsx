@@ -5,7 +5,7 @@ import Button from "./Button";
 
 
 const Header = () => {
-    const { auth } = useAuth()
+    const { auth, clearAuth } = useAuth()
     const location = useLocation()
 
     const getNavItemClass = (path: string) => {
@@ -45,7 +45,7 @@ const Header = () => {
                             </div>
                             <div className="flex gap-3">
                                 <p>Olá, {auth.username}!</p> 
-                                <LogOut />
+                                <LogOut onClick={clearAuth} />
                             </div>
                         </div>
                     ) : (

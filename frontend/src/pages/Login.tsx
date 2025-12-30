@@ -1,47 +1,40 @@
-import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router"
 import Button from "../components/Button"
 import Input from "../components/Input"
 import { useAuth } from "../hooks/useAuth"
-import { BASE_URL } from '../routes/api'
+import { toastError, toastSuccess } from "../lib/toast"
+import { loginSchema, type LoginFormData } from "../schemas/auth-schema"
+import { loginService } from "../services/auth-service"
 
 const Login = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const { setAuth } = useAuth()
     const navigate = useNavigate()
 
-    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const response = await fetch(`${BASE_URL}/auth/login`, { 
-            headers: { "Content-Type":"application/json" },
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            credentials: 'include'
-        })
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+    })
 
-        if (response.status === 400)
-            console.log("Obrigatorio")
-
-        if (response.status === 404)
-            console.log("Não encontrado")
-
+    const onSubmit = async (data: LoginFormData) => {
         try {
-            if (response.status === 200) {
-                const result = await response.json()
-                navigate('/')
-                setAuth(result.data)
-            }
-        } catch(error) {
-           throw Error()
+            const result = await loginService(data)
+            setAuth(result.data)
+            toastSuccess("Login realizado com sucesso!")
+            navigate("/")
+        } catch (error) {
+            toastError(error.message)
         }
-        
     }
 
     return (
         <form 
             className="bg-(--primary-color) flex justify-center h-screen items-center px-4"
-            onSubmit={handleOnSubmit} >
+            onSubmit={handleSubmit(onSubmit)} >
             <div className="flex flex-col items-center">
                 <Link to="/">
                     <img src="/logo.png" alt="logotipo" width={300} height={300} />
@@ -49,14 +42,14 @@ const Login = () => {
                 <Input 
                     placeholder="E-mail" 
                     type="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)} 
+                    {...register("email")}
+                    error={errors.email?.message}
                 />
                 <Input 
                     placeholder="Senha" 
                     type="password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} 
+                    {...register("password")}
+                    error={errors.password?.message}
                 />
                 <div className="mt-3 w-full">
                     <Button label="Login" variant="default" type="submit" />
