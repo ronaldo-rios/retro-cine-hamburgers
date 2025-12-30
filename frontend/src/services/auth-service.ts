@@ -1,5 +1,5 @@
 import { BASE_URL } from "../routes/api"
-import type { LoginFormData } from "../schemas/auth-schema"
+import type { LoginFormData, RegisterFormData } from "../schemas/auth"
 
 export const loginService = async (data: LoginFormData) => {
   const response = await fetch(`${BASE_URL}/auth/login`, {
@@ -15,4 +15,38 @@ export const loginService = async (data: LoginFormData) => {
   }
 
   return response.json()
+}
+
+export const registerService = async (data: RegisterFormData) => {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message || "Erro ao realizar cadastro")
+    }
+
+    return response.json()
+}
+
+export const authUserService = async () => {
+  const response = await fetch(`${BASE_URL}/auth/user`, {
+    credentials: "include",
+  })
+
+  if (!response.ok) {
+    throw new Error("Usuário não autenticado")
+  }
+
+  return response.json()
+}
+
+export const logoutService = async () => {
+    await fetch(`${BASE_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+    })
 }

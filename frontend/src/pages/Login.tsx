@@ -5,19 +5,20 @@ import Button from "../components/Button"
 import Input from "../components/Input"
 import { useAuth } from "../hooks/useAuth"
 import { toastError, toastSuccess } from "../lib/toast"
-import { loginSchema, type LoginFormData } from "../schemas/auth-schema"
+import { loginSchema, type LoginFormData } from "../schemas/auth"
 import { loginService } from "../services/auth-service"
+import { getErrorMessage } from "../utils/getErrorMessage"
 
 const Login = () => {
     const { setAuth } = useAuth()
     const navigate = useNavigate()
-
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
+        mode: 'onBlur'
     })
 
     const onSubmit = async (data: LoginFormData) => {
@@ -27,7 +28,7 @@ const Login = () => {
             toastSuccess("Login realizado com sucesso!")
             navigate("/")
         } catch (error) {
-            toastError(error.message)
+            toastError(getErrorMessage(error))
         }
     }
 

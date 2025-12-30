@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react"
 import type { User } from "../@types/user"
-import { BASE_URL } from "../routes/api"
+import { authUserService, logoutService } from "../services/auth-service"
 import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -9,25 +9,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         const fetchUser = async () => { 
-            const response = await fetch(`${BASE_URL}/auth/user`, {
-                credentials: 'include',
-            })
-
-            if (response.status === 200) {
-                const data = await response.json()
+            try {
+                const data = await authUserService()
                 setAuth(data.user)
+            } catch {
+                setAuth(null)
             }
-        }
-        
+        }   
         fetchUser()
     }, [])
 
     const clearAuth = async () => {
         try {
-            await fetch(`${BASE_URL}/auth/logout`, {
-                method: "POST",
-                credentials: "include",
-            })
+            await logoutService()
         } catch(error) {
             console.log(error)
             return

@@ -1,40 +1,38 @@
-import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router"
 import Button from "../components/Button"
 import Input from "../components/Input"
-import { BASE_URL } from "../routes/api"
+import { toastError, toastSuccess } from "../lib/toast"
+import { registerSchema, type RegisterFormData } from "../schemas/auth"
+import { registerService } from "../services/auth-service"
+import { getErrorMessage } from "../utils/getErrorMessage"
 
 const Register = () => {
-    const [username, setUserame] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
     const navigate = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<RegisterFormData>({
+        resolver: zodResolver(registerSchema),
+        mode: "onBlur",
+    })
 
-    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        
-        const response = await fetch(`${BASE_URL}/auth/register`, { 
-            headers: { "Content-Type":"application/json" },
-            method: 'POST',
-            body: JSON.stringify({ username, email, password })
-        })
-
+    const onSubmit = async (data: RegisterFormData) => {
         try {
-            if (response.status === 201) {
-                const data = await response.json()
-                navigate('/login')
-            }
-        } catch(error) {
-           console.log(error) 
-           return
+            await registerService(data)
+            toastSuccess("Cadastro realizado com sucesso!")
+            navigate("/login")
+        } catch (error) {
+            toastError(getErrorMessage(error))
         }
     }
 
     return (
         <form 
             className="bg-(--primary-color) flex justify-center h-screen items-center px-4"
-            onSubmit={handleOnSubmit} >
+            onSubmit={handleSubmit(onSubmit)} >
             <div className="flex flex-col items-center">
                 <Link to="/">
                     <img src="/logo.png" alt="logotipo" width={300} height={300} />
@@ -42,26 +40,26 @@ const Register = () => {
                 <Input 
                     placeholder="Nome" 
                     type="text" 
-                    value={username}
-                    onChange={(e) => setUserame(e.target.value)} 
+                    {...register("username")}
+                    error={errors.username?.message}   
                 />
                 <Input 
                     placeholder="E-mail" 
                     type="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)} 
+                    {...register("email")}
+                    error={errors.email?.message} 
                 />
                 <Input 
                     placeholder="Senha" 
                     type="password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} 
+                    {...register("password")}
+                    error={errors.password?.message}
                 />
                 <Input 
                     placeholder="Confirme sua Senha" 
                     type="password" 
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)} 
+                    {...register("confirmPassword")}
+                    error={errors.confirmPassword?.message} 
                 />
                 <div className="mt-3 w-full">
                     <Button label="Cadastrar" variant="default" type="submit" />
