@@ -6,7 +6,7 @@ import Input from "../components/Input"
 import { useAuth } from "../hooks/useAuth"
 import { toastError, toastSuccess } from "../lib/toast"
 import { loginSchema, type LoginFormData } from "../schemas/auth"
-import { loginService } from "../services/auth-service"
+import { loginService } from "../services/api/auth-service"
 import { getErrorMessage } from "../utils/getErrorMessage"
 
 const Login = () => {

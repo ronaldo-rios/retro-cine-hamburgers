@@ -1,5 +1,5 @@
-import { BASE_URL } from "../routes/api"
-import type { LoginFormData, RegisterFormData } from "../schemas/auth"
+import { BASE_URL } from "../../routes/api"
+import type { LoginFormData, RegisterFormData } from "../../schemas/auth"
 
 export const loginService = async (data: LoginFormData) => {
   const response = await fetch(`${BASE_URL}/auth/login`, {

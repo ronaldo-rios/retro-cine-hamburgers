@@ -5,7 +5,7 @@ import Button from "../components/Button"
 import Input from "../components/Input"
 import { toastError, toastSuccess } from "../lib/toast"
 import { registerSchema, type RegisterFormData } from "../schemas/auth"
-import { registerService } from "../services/auth-service"
+import { registerService } from "../services/api/auth-service"
 import { getErrorMessage } from "../utils/getErrorMessage"
 
 const Register = () => {
