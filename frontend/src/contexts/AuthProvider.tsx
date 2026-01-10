@@ -6,6 +6,7 @@ import { AuthContext } from "./AuthContext"
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const [auth, setAuth] = useState<User | null>(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchUser = async () => { 
@@ -14,6 +15,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setAuth(data.user)
             } catch {
                 setAuth(null)
+            } finally {
+                setLoading(false)
             }
         }   
         fetchUser()
@@ -31,7 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth, clearAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, clearAuth, loading }}>
             {children}
         </AuthContext.Provider>
     )

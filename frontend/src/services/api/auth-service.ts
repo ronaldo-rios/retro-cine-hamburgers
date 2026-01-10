@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../routes/api"
 import type { LoginFormData, RegisterFormData } from "../../schemas/auth"
+import { BASE_URL } from "./api"
 
 export const loginService = async (data: LoginFormData) => {
   const response = await fetch(`${BASE_URL}/auth/login`, {
@@ -35,6 +35,9 @@ export const registerService = async (data: RegisterFormData) => {
 export const authUserService = async () => {
   const response = await fetch(`${BASE_URL}/auth/user`, {
     credentials: "include",
+    headers: {
+      "Cache-Control": "no-cache",
+    },
   })
 
   if (!response.ok) {

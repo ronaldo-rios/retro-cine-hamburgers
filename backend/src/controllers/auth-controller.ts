@@ -31,7 +31,8 @@ export const login: RequestHandler = async (request, response) => {
     return response.status(200).json({ data: {
             id: user.id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            admin: user.admin
         }
     })
 }
@@ -54,7 +55,8 @@ export const register: RequestHandler = async (request, response) => {
     return response.status(201).json({ data: {
         id: newUser.id,
         username: newUser.username,
-        email: newUser.email
+        email: newUser.email,
+        admin: newUser.admin
     }})
 }
 
@@ -78,10 +80,13 @@ export const authUser = async (request: Request, response: Response) => {
   
   const user = await findById(request.userId)
   
-  return response.status(200).json({
-    id: user?.id,
-    username: user?.username,
-    email: user?.email
-  })
+  if (user) {
+    return response.status(200).json({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        admin: user.admin
+    })
+  } 
 }
 

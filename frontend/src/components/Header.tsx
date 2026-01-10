@@ -24,21 +24,25 @@ const Header = () => {
               
                     {auth ? (
                         <div className="flex text-white items-center gap-10">
-                            <div className="flex gap-2 text-black">
-                                <Link to="/">
-                                    <div className={getNavItemClass('/')}>
-                                        <PackageSearch />
+                            
+                            {auth.admin && (
+                                <div className="flex gap-2 text-black">
+                                    <Link to="/">
+                                        <div className={getNavItemClass('/')}>
+                                            <PackageSearch />
+                                        </div>
+                                    </Link>
+                                    <Link to="/orders">
+                                        <div className={getNavItemClass('/orders')}>
+                                            <ScrollText />
+                                        </div>
+                                    </Link>
+                                    <div className={`p-2 rounded-md bg-(--tertiary-color)`}>
+                                        <ListPlus />
                                     </div>
-                                </Link>
-                                <Link to="/orders">
-                                    <div className={getNavItemClass('/orders')}>
-                                        <ScrollText />
-                                    </div>
-                                </Link>
-                                <div className={`p-2 rounded-md bg-(--tertiary-color)`}>
-                                    <ListPlus />
                                 </div>
-                            </div>
+                            )}
+                            
                             <div className='relative'>
                                 <ShoppingCart />
                                 <p className='flex absolute -top-2 -right-2 rounded-full bg-red-600 w-4 h-4 justify-center items-center'></p>
