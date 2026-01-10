@@ -4,17 +4,16 @@ import { authUserService, logoutService } from "../services/api/auth-service"
 import { AuthContext } from "./AuthContext"
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-
     const [auth, setAuth] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchUser = async () => { 
             try {
-                const data = await authUserService()
-                setAuth(data.user)
+                const user = await authUserService()
+                setAuth(user.data)
             } catch {
-                setAuth(null)
+                setAuth((prevAuth) => prevAuth || null)
             } finally {
                 setLoading(false)
             }

@@ -81,11 +81,13 @@ export const authUser = async (request: Request, response: Response) => {
   const user = await findById(request.userId)
   
   if (user) {
-    return response.status(200).json({
+    return response.status(200).json({ 
+    data: {
         id: user.id,
         username: user.username,
         email: user.email,
         admin: user.admin
+       }
     })
   } 
 }

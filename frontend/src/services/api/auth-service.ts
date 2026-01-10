@@ -35,9 +35,6 @@ export const registerService = async (data: RegisterFormData) => {
 export const authUserService = async () => {
   const response = await fetch(`${BASE_URL}/auth/user`, {
     credentials: "include",
-    headers: {
-      "Cache-Control": "no-cache",
-    },
   })
 
   if (!response.ok) {

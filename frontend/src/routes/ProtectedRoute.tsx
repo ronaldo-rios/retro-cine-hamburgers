@@ -1,16 +1,21 @@
-import { Navigate, Outlet } from "react-router"
+import { Outlet, useNavigate } from "react-router"
 import { useAuth } from "../hooks/useAuth"
 
 const ProtectedRoute = () => {
 
 const { auth, loading } = useAuth()
+const navigate = useNavigate()
 
   if (loading) {
-    return <div>Carregando...</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-white">Carregando...</div>
+      </div>
+    )
   }
 
   if (!auth) {
-    return <Navigate to="/login" replace />
+    navigate("/login", { replace: true })
   }
 
   return <Outlet />
