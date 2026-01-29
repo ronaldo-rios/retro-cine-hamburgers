@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "SMASH TRIPLO GODZILLA",
+      "description": "Pão artesanal, queijo cheddar, cebola caramelizada, pedaços de picles, tomate fatiado, rúcula e três camadas suculentas de carne de 120g cada.",
+      "price": 28.99,
+      "image": "./../../public/products/smash-triplo.png",
+      "category": "burgers"
+    },
+    {
+      "id": 2,
+      "name": "ROCKY DUPLO",
+      "description": "Pão brioche, queijo prato, alface americana, tomate, cebola roxa e uma camada de carne de 120g.",
+      "price": 18.99,
+      "image": "./../../public/products/duplo-da-casa.png",
+      "category": "burgers"
+    },
+    {
+      "id": 3,
+      "name": "CASABLANCA PICANTE",
+      "description": "Pão artesanal, queijo mussarela, bacon crocante, molho barbecue e duas camadas de carne de 120g cada.",
+      "price": 24.99,
+      "image": "./../../public/products/calabresa-especial.png",
+      "category": "burgers"
+    },
+    {
+      "id": 5,
+      "name": "BATATA FRITA PREMIUM",
+      "description": "Batatas rústicas fritas, crocantes por fora e macias por dentro, temperadas com ervas finas.",
+      "price": 12.99,
+      "image": "./../../public/products/fritas.jpeg",
+      "category": "porcoes"
+    },
+    {
+      "id": 6,
+      "name": "COCA COLA LATA",
+      "description": "Refrigerante gelado em lata de 350ml. Disponível em: Coca-Cola, Guaraná Antarctica e Fanta Laranja.",
+      "price": 5.99,
+      "image": "./../../public/products/coca-cola.png",
+      "category": "bebidas"
+    }
+  ]
+}
