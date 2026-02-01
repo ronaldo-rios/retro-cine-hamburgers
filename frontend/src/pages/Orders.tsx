@@ -1,15 +1,32 @@
 import { useState } from "react";
+import type { Order } from "../@types/order";
 import {
     getAllOrderStatus,
     OrderStatus,
     OrderStatusLabels,
     type OrderStatusValue
 } from "../@types/order-status";
+import OrderCard from "../components/OrderCard";
 import Button from "./../components/Button";
 
 const Orders = () => {
 
+    const initialOrders: Order[] = [
+        { id: 1, name: "Ronaldo Rios", date: "21/01/2025", total: 67.9, status: OrderStatus.PENDING },
+        { id: 2, name: "Maria Silva", date: "22/01/2025", total: 120.5, status: OrderStatus.PENDING },
+        { id: 3, name: "João Santos", date: "23/01/2025", total: 45.0, status: OrderStatus.READY },
+    ]
+
     const [activeStatus, setActiveStatus] = useState<OrderStatusValue>(OrderStatus.PENDING)
+    const [orders, setOrders] = useState<Order[]>(initialOrders)
+    const filteredOrders = orders.filter((order) => order.status === activeStatus)
+
+    const handleStatusChange = (id: number, newStatus: OrderStatusValue) => {
+        setOrders((prev) =>
+            prev.map((order) => (order.id === id 
+                ? { ...order, status: newStatus } : order))
+        )
+    }
 
     return (
         <>
@@ -25,62 +42,12 @@ const Orders = () => {
                 ))}
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 py-10">
-                <div className="bg-(--tertiary-color) rounded-md text-black p-1 text-sm">
-                   <div className="flex justify-between">
-                        <p>#1</p>
-                        <select name="" id="" className="font-bold">
-                            <option disabled >Pendente</option>
-                            <option>Preparando</option>
-                            <option>Cancelado</option>
-                        </select>
-                   </div>
-                   <p>Nome: Ronaldo Rios</p>
-                   <p>Data: 21/01/2025</p>
-                   <hr className="mt-3"/>
-                   <p className="font-bold italic text-right p-1">R$ 67,90</p>
-                </div>
-                <div className="bg-(--tertiary-color) rounded-md text-black p-1 text-sm">
-                   <div className="flex justify-between">
-                        <p>#1</p>
-                        <select name="" id="" className="font-bold">
-                            <option disabled >Pendente</option>
-                            <option>Preparando</option>
-                            <option>Cancelado</option>
-                        </select>
-                   </div>
-                   <p>Nome: Ronaldo Rios</p>
-                   <p>Data: 21/01/2025</p>
-                   <hr className="mt-3"/>
-                   <p className="font-bold italic text-right p-1">R$ 67,90</p>
-                </div>
-                <div className="bg-(--tertiary-color) rounded-md text-black p-1 text-sm">
-                   <div className="flex justify-between">
-                        <p>#1</p>
-                        <select name="" id="" className="font-bold">
-                            <option disabled >Pendente</option>
-                            <option>Preparando</option>
-                            <option>Cancelado</option>
-                        </select>
-                   </div>
-                   <p>Nome: Ronaldo Rios</p>
-                   <p>Data: 21/01/2025</p>
-                   <hr className="mt-3"/>
-                   <p className="font-bold italic text-right p-1">R$ 67,90</p>
-                </div>
-                <div className="bg-(--tertiary-color) rounded-md text-black p-1 text-sm">
-                   <div className="flex justify-between">
-                        <p>#1</p>
-                        <select name="" id="" className="font-bold">
-                            <option disabled >Pendente</option>
-                            <option>Preparando</option>
-                            <option>Cancelado</option>
-                        </select>
-                   </div>
-                   <p>Nome: Ronaldo Rios</p>
-                   <p>Data: 21/01/2025</p>
-                   <hr className="mt-3"/>
-                   <p className="font-bold italic text-right p-1">R$ 67,90</p>
-                </div>
+                {filteredOrders.map((order) => (
+                    <OrderCard
+                        order={order}
+                        onStatusChange={handleStatusChange}
+                    />
+                ))}
             </div>
         </>
     )
