@@ -6,3 +6,5 @@
 
 ## Create new migration:
 `migrate:create` 
+
+`prisma:generate`
