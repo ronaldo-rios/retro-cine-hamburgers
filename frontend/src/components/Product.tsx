@@ -1,7 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 
 interface ProductProps {
-    id: number
+    id: string | number
     name: string
     description: string
     price: number
@@ -15,7 +15,7 @@ const Product = ({ name, description, price, image }: ProductProps) => {
             <div className="my-10 bg-gray-700 flex rounded-md">
                 <div className="shrink-0 w-32 md:w-48">
                     <img 
-                        src={image} 
+                        src={`./public/products/${image}`} 
                         alt={name} 
                         className="w-full h-full object-cover rounded-l-md"
                     />
@@ -27,7 +27,7 @@ const Product = ({ name, description, price, image }: ProductProps) => {
                     </p>
                     <div className="flex items-center gap-2 justify-start py-2">
                         <span className="text-(--tertiary-color)">
-                            R$ {price.toFixed(2).replace('.', ',')}
+                            R$ {price}
                         </span>
                         <ShoppingCart 
                             size={18} 
