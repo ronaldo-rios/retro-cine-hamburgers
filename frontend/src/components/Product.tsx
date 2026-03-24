@@ -1,15 +1,8 @@
 import { ShoppingCart } from "lucide-react";
+import type { ProductType } from "../@types/product";
+import { formatPrice } from "../utils/formatters";
 
-interface ProductProps {
-    id: string | number
-    name: string
-    description: string
-    price: number
-    image: string
-    category: string
-}
-
-const Product = ({ name, description, price, image }: ProductProps) => {
+const Product = ({ name, description, price, image }: ProductType) => {
     return (
         <>
             <div className="my-10 bg-gray-700 flex rounded-md">
@@ -27,7 +20,7 @@ const Product = ({ name, description, price, image }: ProductProps) => {
                     </p>
                     <div className="flex items-center gap-2 justify-start py-2">
                         <span className="text-(--tertiary-color)">
-                            R$ {price}
+                            {formatPrice(price)}
                         </span>
                         <ShoppingCart 
                             size={18} 

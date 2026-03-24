@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CategoryLabels, getAllCategories, ProductCategory } from "../@types/category";
-import type { Product as ProductType } from "../@types/product";
+import type { ProductType } from "../@types/product";
 import Button from "../components/Button";
 import Product from "../components/Product";
 import { getAllProducts } from "../services/api/product-service";
