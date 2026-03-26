@@ -3,7 +3,9 @@ import { CategoryLabels, getAllCategories, ProductCategory } from "../@types/cat
 import type { ProductType } from "../@types/product";
 import Button from "../components/Button";
 import Product from "../components/Product";
-import { getAllProducts } from "../services/api/product-service";
+import { toastError, toastSuccess } from "../lib/toast";
+import { deleteProduct, getAllProducts } from "../services/api/product-service";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 const Home = () => {
 
@@ -30,6 +32,22 @@ const Home = () => {
     const filteredProducts = products.filter(
         product => product.category === activeCategory
     );
+
+    const handleDeleteProduct = async (productId: string) => {
+        try {
+            const productName = products.find((p) => p.id === productId)?.name
+            const confirmed = window.confirm(`Tem certeza que deseja excluir ${productName}?`)
+            if (!confirmed) return
+
+            await deleteProduct(productId);
+            setProducts((prevProducts) =>
+                prevProducts.filter((product) => product.id !== productId)
+            );
+            toastSuccess("Produto excluído com sucesso!");
+        } catch (error) {
+            toastError(getErrorMessage(error));
+        }
+    };
 
     return (
         <>
@@ -63,6 +81,7 @@ const Home = () => {
                             price={product.price}
                             image={product.image}
                             category={product.category}
+                            onDelete={handleDeleteProduct}
                         />
                     ))
                 ) : (

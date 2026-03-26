@@ -13,3 +13,17 @@ export const getAllProducts = async () => {
 
   return response.json()
 }
+
+export const deleteProduct = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/product/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || "Erro ao excluir produto")
+  }
+
+  return response.json()
+}

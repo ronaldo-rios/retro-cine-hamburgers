@@ -1,8 +1,15 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Trash2 } from "lucide-react";
 import type { ProductType } from "../@types/product";
+import { useAuth } from "../hooks/useAuth";
 import { formatPrice } from "../utils/formatters";
 
-const Product = ({ name, description, price, image }: ProductType) => {
+interface ProductProps extends ProductType {
+    onDelete?: (id: string) => void;
+}
+
+const Product = ({ id, name, description, price, image, onDelete }: ProductProps) => {
+    const { auth } = useAuth();
+
     return (
         <>
             <div className="my-10 bg-gray-700 flex rounded-md">
@@ -26,6 +33,16 @@ const Product = ({ name, description, price, image }: ProductType) => {
                             size={18} 
                             className="bg-(--tertiary-color) text-black rounded-md w-17 h-5 cursor-pointer"
                         />
+                        {auth?.admin && (
+                            <button
+                                type="button"
+                                onClick={() => onDelete?.(id)}
+                                aria-label={`Excluir produto ${name}`}
+                                className="bg-red-500 text-white rounded-md w-17 h-5 cursor-pointer flex items-center justify-center hover:bg-red-600 transition-colors"
+                            >
+                                <Trash2 size={14} />
+                            </button>
+                        )}
                     </div>
                 </div>  
             </div>
