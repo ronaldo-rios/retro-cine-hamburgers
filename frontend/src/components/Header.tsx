@@ -1,10 +1,13 @@
 import { ListPlus, LogOut, PackageSearch, ScrollText, ShoppingCart } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useLocation } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import Button from "./Button";
+import Cart from './Cart';
 
 
-const Header = () => {
+const Header = () => { 
+    const [showCart, setShowCart] = useState<boolean>(false)
     const { auth, clearAuth } = useAuth()
     const location = useLocation()
 
@@ -17,11 +20,11 @@ const Header = () => {
 
     return (
         <div className="bg-(--primary-color)">
+            {showCart && <Cart />}
             <div className="text-(--secondary-color) mx-auto w-full container flex items-center justify-between p-3" >
                 <Link to="/">
                     <img src="/logo.png" alt="logo" width={100} height={100} />
                 </Link>
-              
                     {auth ? (
                         <div className="flex text-white items-center gap-10">
                             
@@ -44,7 +47,7 @@ const Header = () => {
                             )}
                             
                             <div className='relative'>
-                                <ShoppingCart />
+                                <ShoppingCart onClick={() => setShowCart(!showCart)}/>
                                 <p className='flex absolute -top-2 -right-2 rounded-full bg-red-600 w-4 h-4 justify-center items-center'></p>
                             </div>
                             <div className="flex gap-3">
