@@ -20,7 +20,7 @@ const Header = () => {
 
     return (
         <div className="bg-(--primary-color)">
-            {showCart && <Cart />}
+            {showCart && <Cart setShowCart={setShowCart} />}
             <div className="text-(--secondary-color) mx-auto w-full container flex items-center justify-between p-3" >
                 <Link to="/">
                     <img src="/logo.png" alt="logo" width={100} height={100} />
